@@ -11,10 +11,7 @@ from werkzeug.exceptions import NotFound, BadRequest, Forbidden
 from geonature.utils.env import DB
 from geonature.core.gn_permissions import decorators as permissions
 from geonature.core.gn_meta.models import CorDatasetActor, TDatasets
-from geonature.core.users.models import (
-    VUserslistForallMenu,
-    CorRole,
-)
+from geonature.core.users.models import VUserslistForallMenu
 from geonature.utils.config import config
 from pypnusershub.db.models import Organisme, User, UserList
 from geonature.core.users.register_post_actions import (
@@ -44,6 +41,7 @@ user_fields = {
     "id_organisme",
     "groupe",
     "active",
+    "champs_addi",
 }
 organism_fields = {
     "id_organisme",
