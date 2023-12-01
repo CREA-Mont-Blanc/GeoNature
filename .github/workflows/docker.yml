@@ -3,7 +3,7 @@ name: Docker
 on:
   push:
     branches:
-      - feat/add-user-field
+      - feat/add-user-fields
   release:
     types: [published]
 
