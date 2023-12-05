@@ -48,6 +48,12 @@
 <li class="toctree-l1 current"><a class="current reference internal" href="#">MANUEL UTILISATEUR</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#authentification">Authentification</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#accueil">Accueil</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#metadonnees">Metadonnées</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#structure-des-metadonnees">Structure des métadonnées</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#utilisation-des-metadonnees-dans-geonature">Utilisation des métadonnées dans GeoNature</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#fonctionnement-du-module-metadonnees">Fonctionnement du module Métadonnées</a></li>
+</ul>
+</li>
 <li class="toctree-l2"><a class="reference internal" href="#occtax">OccTax</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#afficher-un-releve">Afficher un relevé</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#ajouter-un-releve">Ajouter un relevé</a></li>
@@ -62,8 +68,10 @@
 <li class="toctree-l3"><a class="reference internal" href="#rechercher-des-observations">Rechercher des observations</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="#admin">Admin</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#metadonnees">Metadonnées</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#admin">Admin</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#gestion-des-permissions">Gestion des permissions</a></li>
+</ul>
+</li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="admin-manual.html">MANUEL ADMINISTRATEUR</a></li>
@@ -101,94 +109,174 @@
 <h1>MANUEL UTILISATEUR<a class="headerlink" href="#manuel-utilisateur" title="Lien permanent vers cette rubrique"></a></h1>
 <section id="authentification">
 <h2>Authentification<a class="headerlink" href="#authentification" title="Lien permanent vers cette rubrique"></a></h2>
-<p>Accéder à l’application de démonstration à l’adresse <a class="reference external" href="http://demo.geonature.fr/geonature">http://demo.geonature.fr/geonature</a>.</p>
+<p>Accéder à l’application de démonstration à l’adresse <a class="reference external" href="https://demo.geonature.fr/geonature">https://demo.geonature.fr/geonature</a>.</p>
 <p>Connectez-vous avec l’utilisateur <code class="docutils literal notranslate"><span class="pre">admin</span></code> et le mot de passe <code class="docutils literal notranslate"><span class="pre">admin</span></code>.</p>
 </section>
 <section id="accueil">
 <h2>Accueil<a class="headerlink" href="#accueil" title="Lien permanent vers cette rubrique"></a></h2>
 <p>Vous accédez alors à la page d’accueil de l’application GeoNature.</p>
-<img alt="http://geonature.fr/docs/img/user-manual/01-home-MTES.jpg" src="http://geonature.fr/docs/img/user-manual/01-home-MTES.jpg" />
+<img alt="https://geonature.fr/docs/img/user-manual/01-home-MTES.jpg" src="https://geonature.fr/docs/img/user-manual/01-home-MTES.jpg" />
 <p>Le Menu de navigation à gauche permet d’accéder aux différents modules de l’application.</p>
-<img alt="http://geonature.fr/docs/img/user-manual/01-home-menu.jpg" src="http://geonature.fr/docs/img/user-manual/01-home-menu.jpg" />
+<img alt="https://geonature.fr/docs/img/user-manual/01-home-menu.jpg" src="https://geonature.fr/docs/img/user-manual/01-home-menu.jpg" />
 <p>Le bouton à gauche du nom de la page permet de rabattre ou d’ouvrir le Menu de navigation.</p>
-<img alt="http://geonature.fr/docs/img/user-manual/01-home-sidebar.jpg" src="http://geonature.fr/docs/img/user-manual/01-home-sidebar.jpg" />
+<img alt="https://geonature.fr/docs/img/user-manual/01-home-sidebar.jpg" src="https://geonature.fr/docs/img/user-manual/01-home-sidebar.jpg" />
 <p>Un bouton en haut à droite permet de se déconnecter de l’application.</p>
-<img alt="http://geonature.fr/docs/img/user-manual/01-home-logout.jpg" src="http://geonature.fr/docs/img/user-manual/01-home-logout.jpg" />
+<img alt="https://geonature.fr/docs/img/user-manual/01-home-logout.jpg" src="https://geonature.fr/docs/img/user-manual/01-home-logout.jpg" />
+</section>
+<section id="metadonnees">
+<h2>Metadonnées<a class="headerlink" href="#metadonnees" title="Lien permanent vers cette rubrique"></a></h2>
+<p>Ce module permet de gérer les métadonnées (Cadres d’acquisition et jeux de données) de votre instance GeoNature, basées sur le standard Métadonnées du SINP (<a class="reference external" href="https://standards-sinp.mnhn.fr/category/standards/metadonnees/">https://standards-sinp.mnhn.fr/category/standards/metadonnees/</a>).</p>
+<p>Ces métadonnées permettent de décrire et d’organiser les données (occurrences de taxons, d’habitats, données protocolées…) au sein de lots de données cohérents et documentés. Les métadonnées ainsi créées sont propres à chaque instance de GeoNature, mais leur format standard permet de les diffuser vers d’autres outils ou dans le cadre du SINP.</p>
+<p>Pour les utilisateurs disposant des droits suffisants, le module Métadonnées est accessible depuis le menu gauche de GeoNature.</p>
+<img alt="https://geonature.fr/docs/img/user-manual/mtd/mtd_00_Acceder_au_module.png" src="https://geonature.fr/docs/img/user-manual/mtd/mtd_00_Acceder_au_module.png" />
+<section id="structure-des-metadonnees">
+<h3>Structure des métadonnées<a class="headerlink" href="#structure-des-metadonnees" title="Lien permanent vers cette rubrique"></a></h3>
+<p>Les métadonnées comprennent deux niveaux distincts, comportant chacun un ensemble d’informations descriptives :</p>
+<ul class="simple">
+<li><p>Le cadre d’acquisition, qui permet de décrire le contexte ou le projet dans lequel les données ont été produites</p></li>
+<li><p>Le jeu de données, qui permet de regrouper un sous-ensemble ou lot de données similaires (groupées par protocole, localités, périodes…)</p></li>
+</ul>
+<p>Un Cadre d’acquisition peut comporter un ou plusieurs Jeux de données, comportant eux-mêmes les données de biodiversité. GeoNature permet également de regrouper des Cadres d’acquisitions ensemble, au sein d’un Cadre d’acquisition dit « parent ». Dans le cas le plus complet, l’outil permet ainsi d’organiser les données selon le schéma suivant :</p>
+<ul class="simple">
+<li><p>Un cadre d’acquisition « parent » (ou méta-cadre selon le standard SINP) décrit un projet complexe</p></li>
+<li><p>Ce cadre d’acquisition parent comporte un ou plusieurs Cadres d’acquisitions, décrivant des « sous-projets » simples</p></li>
+<li><p>Ces Cadres d’acquisition comportent chacun un ou plusieurs Jeux de données</p></li>
+<li><p>Ces Jeux de données comportent chacun un ensemble de données de biodiversité : données protocolées, occurrences de taxons, occurrences d’habitats etc</p></li>
+</ul>
+<img alt="https://geonature.fr/docs/img/user-manual/mtd/mtd_01_Imbrication_notions.png" src="https://geonature.fr/docs/img/user-manual/mtd/mtd_01_Imbrication_notions.png" />
+</section>
+<section id="utilisation-des-metadonnees-dans-geonature">
+<h3>Utilisation des métadonnées dans GeoNature<a class="headerlink" href="#utilisation-des-metadonnees-dans-geonature" title="Lien permanent vers cette rubrique"></a></h3>
+<p>Les métadonnées jouent un rôle central dans GeoNature, et sont nécessaires dans les différents modules de saisie ou de consultation des données. <strong>La gestion des métadonnées est donc la première étape à effectuer, avant de pouvoir produire ou exploiter les données de biodiversité en elles-mêmes</strong>. La notion de jeux de données intervient notamment pour les fonctionnalités suivantes :</p>
+<p><strong>- Saisie ou import de données</strong></p>
+<p>Lors de sa création dans GeoNature, chaque donnée doit être obligatoirement associée à un jeu de données préalablement créé. Ainsi le module d’import et la majorité des modules de saisie (Occtax, OccHab…) nécessitent de sélectionner le jeu de données auquel seront rattachées la ou les données en cours de création.
+Dans certains cas plus spécifiques (Monitorings par exemple), le module peut ne pas demander cette information à l’utilisateur car le jeu de données est sélectionné de manière « transparente » par la configuration du module.</p>
+<img alt="https://geonature.fr/docs/img/user-manual/mtd/mtd_exemple_selection_jdd.png" src="https://geonature.fr/docs/img/user-manual/mtd/mtd_exemple_selection_jdd.png" />
+<p><strong>- Requêtage</strong></p>
+<p>Les métadonnées constituent des « boîtes » dans lesquelles sont rangées les données. Tous les modules de GeoNature permettant de requêter des données (Synthèse, Dashboard, Validation, Occtax…) offrent la possibilité de filtrer par cadre d’acquisition ou par jeu de données.
+De cette manière, l’outil permet de rechercher ou exporter facilement ses données par « campagnes », par « études », par « projet » etc, selon l’organisation des métadonnées mise en place au sein de chaque instance.</p>
+<img alt="https://geonature.fr/docs/img/user-manual/mtd/mtd_exemple_requetage.png" src="https://geonature.fr/docs/img/user-manual/mtd/mtd_exemple_requetage.png" />
+<p><strong>- Permissions</strong></p>
+<p>Les métadonnées sont également utilisées pour l’application des permissions ou restrictions imposées à chaque utilisateur au sein de l’instance (cf <a class="reference external" href="https://docs.geonature.fr/admin-manual.html#gestion-des-droits">https://docs.geonature.fr/admin-manual.html#gestion-des-droits</a>).
+Ainsi les acteurs associés à chaque jeu de données permettront de définir les utilisateurs pouvant consulter ou alimenter les jeux de données en question selon les paramètres définis :</p>
+<ul class="simple">
+<li><p>un utilisateur disposant uniquement des droits sur ses propres données pourra alimenter/consuter les données des jeux de données dont il est personnellement acteur,</p></li>
+<li><p>un utilisateur ayant des droits sur les données de son organisme pourra potentiellement alimenter/consulter les données des jeux de données dont sa structure est actrice,</p></li>
+<li><p>enfin un utilisateur ayant les droits sur toutes les données pourra alimenter/consulter les données de tous les jeux de données, quelques soient les acteurs associés</p></li>
+</ul>
+<p><strong>- Champs additionnels</strong></p>
+<p>GeoNature permet de configurer des champs additionnels « personnalisés » (<a class="reference external" href="https://docs.geonature.fr/admin-manual.html#administration-des-champs-additionnels">https://docs.geonature.fr/admin-manual.html#administration-des-champs-additionnels</a>), qui viennent compléter les champs du standard du sinp (sexe, stade de vie etc). Ces champs additionnels sont implémentés dans le module de saisie Occtax notamment, et peuvent être rendus disponibles uniquement pour certains jeux de données. Il devient ainsi possible, pour un jeu de données en particulier, de recueillir une variable ou une information supplémentaire qui n’apparaitrait pas dans les champs « standards ».</p>
+</section>
+<section id="fonctionnement-du-module-metadonnees">
+<h3>Fonctionnement du module Métadonnées<a class="headerlink" href="#fonctionnement-du-module-metadonnees" title="Lien permanent vers cette rubrique"></a></h3>
+<p>Le module Métadonnées de GeoNature permet de consulter, rechercher et gérer ses cadres d’acquisitions et jeux de données, nécessaires à la gestion des données.</p>
+<p><strong>Consulter, rechercher ou modifier ses métadonnées</strong></p>
+<p>L’accueil du module Métadonnées liste l’ensemble des Cadres d’acquisition disponibles dans l’instance GeoNature. Chaque cadre d’acquisition peut être « déplié » pour afficher les jeux de données qu’il contient.</p>
+<img alt="https://geonature.fr/docs/img/user-manual/mtd/mtd_02_Catalogue_mtd.png" src="https://geonature.fr/docs/img/user-manual/mtd/mtd_02_Catalogue_mtd.png" />
+<p>Cette page comporte également une barre de recherche pour effectuer une recherche rapide dans les métadonnées disponibles, et une fonctionnalité de « recherche avancée ». Elle permet également de consulter les fiches détaillées, de modifier, ou de supprimer les métadonnées existantes.</p>
+<img alt="https://geonature.fr/docs/img/user-manual/mtd/mtd_03_Actions_catalogue.png" src="https://geonature.fr/docs/img/user-manual/mtd/mtd_03_Actions_catalogue.png" />
+<img alt="https://geonature.fr/docs/img/user-manual/mtd/mtd_04_RechercheAvancee.png" src="https://geonature.fr/docs/img/user-manual/mtd/mtd_04_RechercheAvancee.png" />
+<p><strong>Créer un cadre d’acquisition</strong></p>
+<p>Cette page permet également d’accéder au formulaire de création des Cadres d’acquisition via le bouton « Ajouter un Cadre d’acquisition ».</p>
+<img alt="https://geonature.fr/docs/img/user-manual/mtd/mtd_05_AjouterCA.png" src="https://geonature.fr/docs/img/user-manual/mtd/mtd_05_AjouterCA.png" />
+<p>Ce formulaire permet de renseigner les différentes informations descriptions du Cadre d’acquisition (projet/programme). Les champs obligatoires (Nom, description, objectifs, territoire…) sont marqués d’un trait rouge.</p>
+<p>Les cadres d’acquisition doivent également comporter un ou des acteurs associés (organismes, utilisateurs, ou les deux).</p>
+<img alt="https://geonature.fr/docs/img/user-manual/mtd/mtd_06_FormulaireCA.png" src="https://geonature.fr/docs/img/user-manual/mtd/mtd_06_FormulaireCA.png" />
+<p>Il est également possible d’associer des références bibliographiques (publications etc) au cadre d’acquisition.</p>
+<img alt="https://geonature.fr/docs/img/user-manual/mtd/mtd_07_BiblioCA.png" src="https://geonature.fr/docs/img/user-manual/mtd/mtd_07_BiblioCA.png" />
+<p>En cliquant sur la case à cocher « est un cadre d’acquisition parent », l’utilisateur peut créer un « métacadre » d’acquisition, qui pourra ensuite regrouper plusieurs cadres d’acquisition « simples ». A l’inverse, en sélectionnant un cadre d’acquisition parent, l’utilisateur pourra associer son cadre d’acquisition à un cadre « parent » créé préalablement.</p>
+<p><strong>Créer un jeu de données</strong></p>
+<p>De la même manière que pour les Cadres d’acquisition, la page d’accueil du module Métadonnées comporte un bouton « Ajouter un jeu de données » qui  permet d’accéder au formulaire de création d’un nouveau Jeu de Données.</p>
+<img alt="https://geonature.fr/docs/img/user-manual/mtd/mtd_08_AjoutJDD.png" src="https://geonature.fr/docs/img/user-manual/mtd/mtd_08_AjoutJDD.png" />
+<p>Ce formulaire permet à l’utilisateur de décrire son lot de données (nom, description, méthodes…) et d’indiquer à quel cadre d’acquisition (projet) il est rattaché.</p>
+<p>Enfin comme pour les cadres d’acquisition, l’utilisateur devra définir le (ou les) acteur(s) associé(s) au jeu de données en question (producteur, financeur etc) : organismes, personnes, ou les deux. Ces choix permettront de définir les utilisateurs qui pourront - ou non - alimenter et consulter les données du jeu de données considéré en fonction des permissions configurées.</p>
+<img alt="https://geonature.fr/docs/img/user-manual/mtd/mtd_09_Formulaire_JDD.png" src="https://geonature.fr/docs/img/user-manual/mtd/mtd_09_Formulaire_JDD.png" />
+<p>La case à cocher « actif à la saisie » permet d’ouvrir ou fermer le jeu de données, qui sera ou non proposé aux utilisateurs dans les modules de saisie ou d’import. De même, les jeux de données peuvent être - ou non - rendus validables.</p>
+<p>Ce formulaire permet également d’associer les jeux de données à un (ou des) module(s) de GeoNature, et éventuellement à une liste de taxons.</p>
+<img alt="https://geonature.fr/docs/img/user-manual/mtd/mtd_10_SpecifiqueGeoNature.png" src="https://geonature.fr/docs/img/user-manual/mtd/mtd_10_SpecifiqueGeoNature.png" />
+<p><strong>Association entre jeux de données et modules</strong></p>
+<p>Afin de faciliter la saisie et limiter les erreurs, GeoNature permet d’associer chaque jeu de données à un (ou des) module(s). De cette manière, il est possible de définir depuis quel(s) module(s) le jeu de données considéré pourra être alimenté par les différents utilisateurs.</p>
+<p>Cette association se fait depuis le formulaire de création/d’édition du jeu de données.</p>
+<p><strong>Association entre Jeu de données et liste de taxons</strong></p>
+<p>De la même manière, GeoNature permet d’associer un jeu de données à une liste de taxons. Cette association n’est pas obligatoire (par défaut, c’est la liste du module de saisie ou tout Taxref qui seront disponibles).</p>
+<p>Cela permet notamment de réduire le nombre de taxons proposés à la saisie dans des jeux de données dédiés à un groupe d’espèces restreint (protocoles, suivis etc).</p>
+<p>Cette association se fait depuis le formulaire de création/d’édition du jeu de données.</p>
+</section>
 </section>
 <section id="occtax">
 <h2>OccTax<a class="headerlink" href="#occtax" title="Lien permanent vers cette rubrique"></a></h2>
 <p>Ce module permet de saisir des données selon le standard Occurrence de taxon du SINP
 (<a class="reference external" href="https://inpn.mnhn.fr/telechargement/standard-occurrence-taxon">https://inpn.mnhn.fr/telechargement/standard-occurrence-taxon</a>).</p>
-<img alt="http://geonature.fr/docs/img/user-manual/2018-09-geonature-occtax.gif" src="http://geonature.fr/docs/img/user-manual/2018-09-geonature-occtax.gif" />
+<img alt="https://geonature.fr/docs/img/user-manual/2018-09-geonature-occtax.gif" src="https://geonature.fr/docs/img/user-manual/2018-09-geonature-occtax.gif" />
 <p>Les données sont organisées en relevés (localisation, jeu de données, date, observateur…) qui sont composés d’observations
 d’un ou plusieurs taxons (méthode, état, statut, détermination…).</p>
 <p>Pour chaque taxon observé, il est possible de renseigner un ou plusieurs dénombrements.</p>
 <p>Chaque dénombrement correspond à un stade de vie et un sexe.</p>
 <p>Chaque relevé est associé à un jeu de données. Pour saisir dans un jeu de données, il faut donc que vous ayez créé au
 préalable les jeux de données dans l’application Métadonnées (MTD) du SINP.</p>
-<img alt="http://geonature.fr/docs/img/user-manual/02-occtax.jpg" src="http://geonature.fr/docs/img/user-manual/02-occtax.jpg" />
+<img alt="https://geonature.fr/docs/img/user-manual/02-occtax.jpg" src="https://geonature.fr/docs/img/user-manual/02-occtax.jpg" />
 <p>Quand on accède au module OccTax, celui-ci affiche vos données présentes dans le module, sur la carte ainsi que dans une liste.</p>
 <p>La carte et la liste sont interactives.</p>
 <p>Il est possible de se déplacer et de zoomer dans la carte (avec la souris et la molette ou les bouton + et -).</p>
 <p>Il est aussi possible de changer le fond de carte affiché.</p>
-<img alt="http://geonature.fr/docs/img/user-manual/02-occtax-layers.jpg" src="http://geonature.fr/docs/img/user-manual/02-occtax-layers.jpg" />
+<img alt="https://geonature.fr/docs/img/user-manual/02-occtax-layers.jpg" src="https://geonature.fr/docs/img/user-manual/02-occtax-layers.jpg" />
 <p>Les relevés affichés peuvent être filtrés.</p>
 <p>Le premier filtre permet de limiter les relevés à ceux contenant un taxon en particulier.</p>
 <p>Pour sélectionner un taxon, saisir au moins 3 lettres de l’espèce (en français ou en latin).</p>
 <p>Il est aussi possible de saisir les premières lettres de l’espèce et de la sous-espèce.</p>
-<img alt="http://geonature.fr/docs/img/user-manual/02-occtax-filters.jpg" src="http://geonature.fr/docs/img/user-manual/02-occtax-filters.jpg" />
+<img alt="https://geonature.fr/docs/img/user-manual/02-occtax-filters.jpg" src="https://geonature.fr/docs/img/user-manual/02-occtax-filters.jpg" />
 <p>Il est possible de filtrer la liste des taxons par règne, en affichant le filtre :</p>
-<img alt="http://geonature.fr/docs/img/user-manual/02-occtax-filters-regne.jpg" src="http://geonature.fr/docs/img/user-manual/02-occtax-filters-regne.jpg" />
+<img alt="https://geonature.fr/docs/img/user-manual/02-occtax-filters-regne.jpg" src="https://geonature.fr/docs/img/user-manual/02-occtax-filters-regne.jpg" />
 <p>Il est possible d’afficher des filtres complémentaires, et de supprimer les filtres existants :</p>
-<img alt="http://geonature.fr/docs/img/user-manual/02-occtax-filters-more.jpg" src="http://geonature.fr/docs/img/user-manual/02-occtax-filters-more.jpg" />
+<img alt="https://geonature.fr/docs/img/user-manual/02-occtax-filters-more.jpg" src="https://geonature.fr/docs/img/user-manual/02-occtax-filters-more.jpg" />
 <p>Cela permet de filtrer sur tous les champs du module :</p>
-<img alt="http://geonature.fr/docs/img/user-manual/02-occtax-filters-more-tools.jpg" src="http://geonature.fr/docs/img/user-manual/02-occtax-filters-more-tools.jpg" />
+<img alt="https://geonature.fr/docs/img/user-manual/02-occtax-filters-more-tools.jpg" src="https://geonature.fr/docs/img/user-manual/02-occtax-filters-more-tools.jpg" />
 <p>Selon les droits dont vous disposez, il est possible d’afficher, de modifier ou de supprimer un relevé :</p>
-<img alt="http://geonature.fr/docs/img/user-manual/02-occtax-tools.jpg" src="http://geonature.fr/docs/img/user-manual/02-occtax-tools.jpg" />
+<img alt="https://geonature.fr/docs/img/user-manual/02-occtax-tools.jpg" src="https://geonature.fr/docs/img/user-manual/02-occtax-tools.jpg" />
 <p>Sur la liste, il est également possible de modifier les colonnes affichées :</p>
-<img alt="http://geonature.fr/docs/img/user-manual/02-occtax-modify-columns.jpg" src="http://geonature.fr/docs/img/user-manual/02-occtax-modify-columns.jpg" />
-<img alt="http://geonature.fr/docs/img/user-manual/02-occtax-modify-columns-2.jpg" src="http://geonature.fr/docs/img/user-manual/02-occtax-modify-columns-2.jpg" />
+<img alt="https://geonature.fr/docs/img/user-manual/02-occtax-modify-columns.jpg" src="https://geonature.fr/docs/img/user-manual/02-occtax-modify-columns.jpg" />
+<img alt="https://geonature.fr/docs/img/user-manual/02-occtax-modify-columns-2.jpg" src="https://geonature.fr/docs/img/user-manual/02-occtax-modify-columns-2.jpg" />
 <section id="afficher-un-releve">
 <h3>Afficher un relevé<a class="headerlink" href="#afficher-un-releve" title="Lien permanent vers cette rubrique"></a></h3>
 <p>Si vous affichez un relevé, vous accéderez à sa fiche complète :</p>
-<img alt="http://geonature.fr/docs/img/user-manual/03-occtax-detail.jpg" src="http://geonature.fr/docs/img/user-manual/03-occtax-detail.jpg" />
+<img alt="https://geonature.fr/docs/img/user-manual/03-occtax-detail.jpg" src="https://geonature.fr/docs/img/user-manual/03-occtax-detail.jpg" />
 <p>Si vous cliquez sur un des taxons observés dans ce relevé, cela affichera le détail de l’observation du taxon :</p>
-<img alt="http://geonature.fr/docs/img/user-manual/03-occtax-detail-info.jpg" src="http://geonature.fr/docs/img/user-manual/03-occtax-detail-info.jpg" />
+<img alt="https://geonature.fr/docs/img/user-manual/03-occtax-detail-info.jpg" src="https://geonature.fr/docs/img/user-manual/03-occtax-detail-info.jpg" />
 <p>Vous pouvez aussi consulter les dénombrements du taxon observé :</p>
-<img alt="http://geonature.fr/docs/img/user-manual/03-occtax-detail-counting.jpg" src="http://geonature.fr/docs/img/user-manual/03-occtax-detail-counting.jpg" />
+<img alt="https://geonature.fr/docs/img/user-manual/03-occtax-detail-counting.jpg" src="https://geonature.fr/docs/img/user-manual/03-occtax-detail-counting.jpg" />
 <p>Il est aussi possible d’afficher les informations géographiques liées au relevé :</p>
-<img alt="http://geonature.fr/docs/img/user-manual/03-occtax-detail-geo-button.jpg" src="http://geonature.fr/docs/img/user-manual/03-occtax-detail-geo-button.jpg" />
-<img alt="http://geonature.fr/docs/img/user-manual/03-occtax-detail-geo.jpg" src="http://geonature.fr/docs/img/user-manual/03-occtax-detail-geo.jpg" />
+<img alt="https://geonature.fr/docs/img/user-manual/03-occtax-detail-geo-button.jpg" src="https://geonature.fr/docs/img/user-manual/03-occtax-detail-geo-button.jpg" />
+<img alt="https://geonature.fr/docs/img/user-manual/03-occtax-detail-geo.jpg" src="https://geonature.fr/docs/img/user-manual/03-occtax-detail-geo.jpg" />
 <p>Selon les droits dont vous disposez, il est possible de modifier un relevé directement depuis sa fiche Détail :</p>
-<img alt="http://geonature.fr/docs/img/user-manual/03-occtax-detail-edit.jpg" src="http://geonature.fr/docs/img/user-manual/03-occtax-detail-edit.jpg" />
+<img alt="https://geonature.fr/docs/img/user-manual/03-occtax-detail-edit.jpg" src="https://geonature.fr/docs/img/user-manual/03-occtax-detail-edit.jpg" />
 </section>
 <section id="ajouter-un-releve">
 <h3>Ajouter un relevé<a class="headerlink" href="#ajouter-un-releve" title="Lien permanent vers cette rubrique"></a></h3>
 <p>Depuis la liste des relevés, cliquer sur le bouton de création d’un relevé :</p>
-<img alt="http://geonature.fr/docs/img/user-manual/05-occtax-create.jpg" src="http://geonature.fr/docs/img/user-manual/05-occtax-create.jpg" />
+<img alt="https://geonature.fr/docs/img/user-manual/05-occtax-create.jpg" src="https://geonature.fr/docs/img/user-manual/05-occtax-create.jpg" />
 <p>Vous accédez alors à un formulaire de saisie à compléter :</p>
-<img alt="http://geonature.fr/docs/img/user-manual/05-occtax-add.jpg" src="http://geonature.fr/docs/img/user-manual/05-occtax-add.jpg" />
+<img alt="https://geonature.fr/docs/img/user-manual/05-occtax-add.jpg" src="https://geonature.fr/docs/img/user-manual/05-occtax-add.jpg" />
 <p>Commencez par localiser le relevé, sous forme de point (en cliquant sur la carte ou en saisissant les coordonnées GPS du point) :</p>
-<img alt="http://geonature.fr/docs/img/user-manual/05-occtax-create-point.jpg" src="http://geonature.fr/docs/img/user-manual/05-occtax-create-point.jpg" />
+<img alt="https://geonature.fr/docs/img/user-manual/05-occtax-create-point.jpg" src="https://geonature.fr/docs/img/user-manual/05-occtax-create-point.jpg" />
 <p>De ligne (en recliquant sur le dernier point de la ligne pour la terminer) :</p>
-<img alt="http://geonature.fr/docs/img/user-manual/05-occtax-create-line.jpg" src="http://geonature.fr/docs/img/user-manual/05-occtax-create-line.jpg" />
+<img alt="https://geonature.fr/docs/img/user-manual/05-occtax-create-line.jpg" src="https://geonature.fr/docs/img/user-manual/05-occtax-create-line.jpg" />
 <p>Ou de polygone (en recliquant sur le premier point du polygone pour le terminer) :</p>
-<img alt="http://geonature.fr/docs/img/user-manual/05-occtax-create-polygon.jpg" src="http://geonature.fr/docs/img/user-manual/05-occtax-create-polygon.jpg" />
+<img alt="https://geonature.fr/docs/img/user-manual/05-occtax-create-polygon.jpg" src="https://geonature.fr/docs/img/user-manual/05-occtax-create-polygon.jpg" />
 <p>Les localisations peuvent être modifiées.</p>
 <p>Pour les points, il suffit de les déplacer ou de recliquer ailleurs sur la carte.</p>
 <p>Pour les lignes et les polygones, il faut cliquer sur le bouton de modification.</p>
-<img alt="http://geonature.fr/docs/img/user-manual/05-occtax-create-polygon-edit.jpg" src="http://geonature.fr/docs/img/user-manual/05-occtax-create-polygon-edit.jpg" />
+<img alt="https://geonature.fr/docs/img/user-manual/05-occtax-create-polygon-edit.jpg" src="https://geonature.fr/docs/img/user-manual/05-occtax-create-polygon-edit.jpg" />
 <p>Vous pouvez alors déplacer les sommets existants ou en créer de nouveaux pour affiner le tracé en cliquant sur les sommets transparents.</p>
 <p>Cliquer sur <code class="docutils literal notranslate"><span class="pre">SAVE</span></code> pour enregistrer les modifications apportées à une ligne ou un polygone.</p>
 <p>Les altitudes minimum et maximum du relevé sont calculées automatiquement mais peuvent être modifiées manuellement.</p>
 <p>Les informations géographiques du relevé (communes notamment) sont aussi calculées automatiquement.</p>
 <p>Pour les afficher, il faut cliquer sur le bouton d’information :</p>
-<img alt="http://geonature.fr/docs/img/user-manual/03-occtax-detail-geo-button.jpg" src="http://geonature.fr/docs/img/user-manual/03-occtax-detail-geo-button.jpg" />
-<img alt="http://geonature.fr/docs/img/user-manual/05-occtax-create-geo.jpg" src="http://geonature.fr/docs/img/user-manual/05-occtax-create-geo.jpg" />
+<img alt="https://geonature.fr/docs/img/user-manual/03-occtax-detail-geo-button.jpg" src="https://geonature.fr/docs/img/user-manual/03-occtax-detail-geo-button.jpg" />
+<img alt="https://geonature.fr/docs/img/user-manual/05-occtax-create-geo.jpg" src="https://geonature.fr/docs/img/user-manual/05-occtax-create-geo.jpg" />
 <p>Une fois les informations du relevé renseignées (observateurs, jeu de données, date et commentaire optionnel),
 vous pouvez ajouter un premier taxon à celui-ci en cliquant sur <code class="docutils literal notranslate"><span class="pre">Ajouter</span> <span class="pre">un</span> <span class="pre">taxon</span> <span class="pre">sur</span> <span class="pre">ce</span> <span class="pre">relevé</span></code> :</p>
-<img alt="http://geonature.fr/docs/img/user-manual/05-occtax-add-taxon.jpg" src="http://geonature.fr/docs/img/user-manual/05-occtax-add-taxon.jpg" />
-<img alt="http://geonature.fr/docs/img/user-manual/05-occtax-create-taxon.jpg" src="http://geonature.fr/docs/img/user-manual/05-occtax-create-taxon.jpg" />
+<img alt="https://geonature.fr/docs/img/user-manual/05-occtax-add-taxon.jpg" src="https://geonature.fr/docs/img/user-manual/05-occtax-add-taxon.jpg" />
+<img alt="https://geonature.fr/docs/img/user-manual/05-occtax-create-taxon.jpg" src="https://geonature.fr/docs/img/user-manual/05-occtax-create-taxon.jpg" />
 <p>Par défaut l’ensemble des taxons de Taxref sont disponibles à la saisie. Il est possible de resteindre cette liste pour mettre une liste personalisée via les listes TaxHub:
 - au niveau du module (paramètre <cite>id_taxon_list</cite>. La paramètre doit être un entier correspondant à l’identifiant de la liste de la table <cite>taxonomie.bib_listes</cite> )
 - au niveau d’un jeu de données (via le formulaire de saisie des JDD, rubriques « spécificités GeoNature »)</p>
@@ -196,13 +284,13 @@ vous pouvez ajouter un premier taxon à celui-ci en cliquant sur <code class="do
 <p>Vous pouvez aussi saisir les 3 premières lettres de l’espèce et de la sous-espèce.</p>
 <p>Renseignez ensuite les autres champs relatifs au taxon. Les valeurs proposées dans les listes dépendent
 du rang et du groupe du taxon selectionné :</p>
-<img alt="http://geonature.fr/docs/img/user-manual/05-occtax-create-taxon-plus.jpg" src="http://geonature.fr/docs/img/user-manual/05-occtax-create-taxon-plus.jpg" />
+<img alt="https://geonature.fr/docs/img/user-manual/05-occtax-create-taxon-plus.jpg" src="https://geonature.fr/docs/img/user-manual/05-occtax-create-taxon-plus.jpg" />
 <p>Des valeurs par défaut sont renseignées pour certains.</p>
 <p>Vous pouvez ensuite renseigner un ou plusieurs dénombrements pour le taxon observé.</p>
 <p>Par défaut, un dénombrement indéterminé d’un individu est renseigné :</p>
-<img alt="http://geonature.fr/docs/img/user-manual/05-occtax-create-taxon-counting.jpg" src="http://geonature.fr/docs/img/user-manual/05-occtax-create-taxon-counting.jpg" />
+<img alt="https://geonature.fr/docs/img/user-manual/05-occtax-create-taxon-counting.jpg" src="https://geonature.fr/docs/img/user-manual/05-occtax-create-taxon-counting.jpg" />
 <p>Une fois le taxon renseigné, cliquer sur <code class="docutils literal notranslate"><span class="pre">VALIDER</span> <span class="pre">LE</span> <span class="pre">TAXON</span></code> pour l’enregistrer :</p>
-<img alt="http://geonature.fr/docs/img/user-manual/05-occtax-create-taxon-save.jpg" src="http://geonature.fr/docs/img/user-manual/05-occtax-create-taxon-save.jpg" />
+<img alt="https://geonature.fr/docs/img/user-manual/05-occtax-create-taxon-save.jpg" src="https://geonature.fr/docs/img/user-manual/05-occtax-create-taxon-save.jpg" />
 <p>Vous pouvez alors :</p>
 <ul class="simple">
 <li><p>Modifier le taxon enregistré</p></li>
@@ -211,17 +299,17 @@ du rang et du groupe du taxon selectionné :</p>
 <li><p>Enregistrer le relevé pour revenir à la liste des relevés.</p></li>
 </ul>
 <p>Pour ajouter un taxon au relevé, il faut cliquer sur <code class="docutils literal notranslate"><span class="pre">Ajouter</span> <span class="pre">un</span> <span class="pre">taxon</span> <span class="pre">sur</span> <span class="pre">ce</span> <span class="pre">relevé</span></code> et le renseigner comme le précédent :</p>
-<img alt="http://geonature.fr/docs/img/user-manual/05-occtax-create-taxon-2.jpg" src="http://geonature.fr/docs/img/user-manual/05-occtax-create-taxon-2.jpg" />
+<img alt="https://geonature.fr/docs/img/user-manual/05-occtax-create-taxon-2.jpg" src="https://geonature.fr/docs/img/user-manual/05-occtax-create-taxon-2.jpg" />
 </section>
 <section id="modifier-un-releve">
 <h3>Modifier un relevé<a class="headerlink" href="#modifier-un-releve" title="Lien permanent vers cette rubrique"></a></h3>
 <p>Si vous modifiez un relevé existant, vous accédez à sa fiche renseignée, sur laquelle vous pouvez modifier la localisation, les informations du relevé, les taxons observés et leurs dénombrements :</p>
-<img alt="http://geonature.fr/docs/img/user-manual/04-occtax-edit.jpg" src="http://geonature.fr/docs/img/user-manual/04-occtax-edit.jpg" />
+<img alt="https://geonature.fr/docs/img/user-manual/04-occtax-edit.jpg" src="https://geonature.fr/docs/img/user-manual/04-occtax-edit.jpg" />
 <p>Vous pouvez ajouter un taxon au relevé en cliquant sur <code class="docutils literal notranslate"><span class="pre">Ajouter</span> <span class="pre">un</span> <span class="pre">taxon</span> <span class="pre">sur</span> <span class="pre">ce</span> <span class="pre">relevé</span></code> :</p>
-<img alt="http://geonature.fr/docs/img/user-manual/04-occtax-edit-taxon.jpg" src="http://geonature.fr/docs/img/user-manual/04-occtax-edit-taxon.jpg" />
+<img alt="https://geonature.fr/docs/img/user-manual/04-occtax-edit-taxon.jpg" src="https://geonature.fr/docs/img/user-manual/04-occtax-edit-taxon.jpg" />
 <p>Ou modifier une observation existante d’un taxon en le selectionnant dans la liste des taxons déjà enregistrés :</p>
-<img alt="http://geonature.fr/docs/img/user-manual/04-occtax-edit-taxon-list.jpg" src="http://geonature.fr/docs/img/user-manual/04-occtax-edit-taxon-list.jpg" />
-<img alt="http://geonature.fr/docs/img/user-manual/04-occtax-edit-taxon-2.jpg" src="http://geonature.fr/docs/img/user-manual/04-occtax-edit-taxon-2.jpg" />
+<img alt="https://geonature.fr/docs/img/user-manual/04-occtax-edit-taxon-list.jpg" src="https://geonature.fr/docs/img/user-manual/04-occtax-edit-taxon-list.jpg" />
+<img alt="https://geonature.fr/docs/img/user-manual/04-occtax-edit-taxon-2.jpg" src="https://geonature.fr/docs/img/user-manual/04-occtax-edit-taxon-2.jpg" />
 </section>
 <section id="exports">
 <h3>Exports<a class="headerlink" href="#exports" title="Lien permanent vers cette rubrique"></a></h3>
@@ -231,27 +319,27 @@ du rang et du groupe du taxon selectionné :</p>
 <li><p>Depuis le module « Occtax »</p></li>
 </ul>
 <p>Depuis la liste de vos relevés de l’interface carte-liste, filtrez d’abord vos relevés par <strong>jeu de données</strong> (ou autre) et cliquez sur le bouton <code class="docutils literal notranslate"><span class="pre">Rechercher</span></code>.</p>
-<img alt="http://geonature.fr/docs/img/user-manual/06-occtax-search-bar.jpg" src="http://geonature.fr/docs/img/user-manual/06-occtax-search-bar.jpg" />
+<img alt="https://geonature.fr/docs/img/user-manual/06-occtax-search-bar.jpg" src="https://geonature.fr/docs/img/user-manual/06-occtax-search-bar.jpg" />
 <p>Puis cliquez sur le bouton <code class="docutils literal notranslate"><span class="pre">Télécharger</span> <span class="pre">les</span> <span class="pre">données</span></code> en bas de la liste des relevés.</p>
-<img alt="http://geonature.fr/docs/img/user-manual/06-occtax-download-data.jpg" src="http://geonature.fr/docs/img/user-manual/06-occtax-download-data.jpg" />
+<img alt="https://geonature.fr/docs/img/user-manual/06-occtax-download-data.jpg" src="https://geonature.fr/docs/img/user-manual/06-occtax-download-data.jpg" />
 <p>Une fenêtre s’ouvre, fournissant des informations sur le téléchargement des données. Selectionnez ensuite le format CSV pour GINCO :</p>
-<img alt="http://geonature.fr/docs/img/user-manual/06-occtax-download.jpg" src="http://geonature.fr/docs/img/user-manual/06-occtax-download.jpg" />
+<img alt="https://geonature.fr/docs/img/user-manual/06-occtax-download.jpg" src="https://geonature.fr/docs/img/user-manual/06-occtax-download.jpg" />
 <ul>
 <li><p>Depuis le module d’export :</p>
 <p>Les exports se font par jeu de données.</p>
 </li>
 </ul>
-<img alt="http://geonature.fr/docs/img/user-manual/06-export.jpg" src="http://geonature.fr/docs/img/user-manual/06-export.jpg" />
+<img alt="https://geonature.fr/docs/img/user-manual/06-export.jpg" src="https://geonature.fr/docs/img/user-manual/06-export.jpg" />
 <p>Vous obtenez alors un CSV par jeu de données.</p>
 <p>Pour disposer dans l’export de toutes les informations saisies, une ligne correspond à un dénombrement d’un taxon.</p>
-<img alt="http://geonature.fr/docs/img/user-manual/06-export-csv.jpg" src="http://geonature.fr/docs/img/user-manual/06-export-csv.jpg" />
+<img alt="https://geonature.fr/docs/img/user-manual/06-export-csv.jpg" src="https://geonature.fr/docs/img/user-manual/06-export-csv.jpg" />
 </section>
 </section>
 <section id="synthese">
 <h2>Synthèse<a class="headerlink" href="#synthese" title="Lien permanent vers cette rubrique"></a></h2>
 <p>Ce module permet de consulter, rechercher et exporter les données provenant des différentes sources et protocoles avec leur tronc commun, basé sur le standard Occurrences de taxon du SINP (<a class="reference external" href="https://inpn.mnhn.fr/telechargement/standard-occurrence-taxon">https://inpn.mnhn.fr/telechargement/standard-occurrence-taxon</a>).</p>
 <p>Il permet aussi d’afficher la fiche détaillée de chaque occurrence et de revenir à sa fiche source si elle a été saisie dans un module de GeoNature.</p>
-<img alt="http://geonature.fr/docs/img/user-manual/2018-09-geonature-synthese.gif" src="http://geonature.fr/docs/img/user-manual/2018-09-geonature-synthese.gif" />
+<img alt="https://geonature.fr/docs/img/user-manual/2018-09-geonature-synthese.gif" src="https://geonature.fr/docs/img/user-manual/2018-09-geonature-synthese.gif" />
 <section id="acceder-a-la-synthese">
 <h3>Accéder à la synthèse<a class="headerlink" href="#acceder-a-la-synthese" title="Lien permanent vers cette rubrique"></a></h3>
 <p>Cliquez sur le module Synthèse, dans le menu de navigation :</p>
@@ -366,11 +454,38 @@ du rang et du groupe du taxon selectionné :</p>
 <h2>Admin<a class="headerlink" href="#admin" title="Lien permanent vers cette rubrique"></a></h2>
 <p>C’est le module « backoffice » de GeoNature.
 Il permet notamment de gérer les permissions (CRUVED et autres filtres), les nomenclatures (typologies et vocabulaires) utilisées dans les différents modules de GeoNature ainsi que les champs additionnels.</p>
+<section id="gestion-des-permissions">
+<h3>Gestion des permissions<a class="headerlink" href="#gestion-des-permissions" title="Lien permanent vers cette rubrique"></a></h3>
+<p>Depuis le version 2.13.0 de GeoNature, le système des permissions a été entièrement revu pour :
+- pouvoir leur associer d’autres types de filtres (sensibilité notamment),
+- les simplifier et clarifier en supprimant l’héritage et en définissant les permissions disponibles pour chaque module</p>
+<p>Le modèle de données des permissions et leur logique ayant été revu, il a fallu faire évoluer leur interface d’administration.</p>
+<p>Il a été retenu de réaliser cette nouvelle interface d’administration des permissions dans le module ADMIN existant de GeoNature.</p>
+<p>Il y est possible de lister toutes les permissions attribuées dans une instance GeoNature :</p>
+<img alt="https://github.com/PnX-SI/GeoNature/assets/4418840/2002df3e-733e-4894-b001-2b3608bb896e" src="https://github.com/PnX-SI/GeoNature/assets/4418840/2002df3e-733e-4894-b001-2b3608bb896e" />
+<p>Il est possible de filtrer rapidement cette liste en saisissant un nom d’utilisateur ou de groupe, ou en appliquant un filtre par module, action, par utilisateur ou groupe… :</p>
+<img alt="https://github.com/PnX-SI/GeoNature/assets/4418840/8649033a-21cf-489d-b522-01f7b88333dc" src="https://github.com/PnX-SI/GeoNature/assets/4418840/8649033a-21cf-489d-b522-01f7b88333dc" />
+<hr class="docutils" />
+<p>Il est possible de modifier, supprimer ou ajouter une nouvelle permission :</p>
+<img alt="https://github.com/PnX-SI/GeoNature/assets/4418840/c07beff6-197c-4f28-b8d1-43ead470b00d" src="https://github.com/PnX-SI/GeoNature/assets/4418840/c07beff6-197c-4f28-b8d1-43ead470b00d" />
+<p>La liste des permissions ne contient que celles qui ont un réel usage car elles sont déclarées par chaque module.
+Une fois que l’on a sélectionné un groupe ou utilisateur, la liste des permissions ne propose que des permissions qui n’ont pas été définies pour celui-ci, ou alors pour lesquelles on peut définir plusieurs permissions se combinant (Exemple du Read de la Synthèse pour lequel on peut créer une permission indiquant qu’un utilisateur voit toutes les données de son organisme sans filtre de sensibilité, mais qu’il voit toutes les données avec un filtre de sensibilité) :</p>
+<img alt="https://github.com/PnX-SI/GeoNature/assets/4418840/7aa6ec8c-2244-4a18-9af6-c11140af9afc" src="https://github.com/PnX-SI/GeoNature/assets/4418840/7aa6ec8c-2244-4a18-9af6-c11140af9afc" />
+<p>Une fois qu’une permission a été selectionnée, si des filtres peuvent être appliqués à celle-ci dans ce module, alors les filtres sont affichés :</p>
+<img alt="https://github.com/PnX-SI/GeoNature/assets/4418840/6f90e1cc-d71d-44bd-81c8-47bc6dfe11d9" src="https://github.com/PnX-SI/GeoNature/assets/4418840/6f90e1cc-d71d-44bd-81c8-47bc6dfe11d9" />
+<p>Si aucun filtre n’est sélectionné, alors la permission s’applique sur toutes les données concernées.</p>
+<hr class="docutils" />
+<p>Il est aussi possible d’afficher et de gérer les permissions par groupes ou par utilisateurs :</p>
+<img alt="https://github.com/PnX-SI/GeoNature/assets/4418840/1f59af83-683e-4e1b-ba85-95649558ea0f" src="https://github.com/PnX-SI/GeoNature/assets/4418840/1f59af83-683e-4e1b-ba85-95649558ea0f" />
+<p>Quand on clique sur un groupe ou utilisateur pour en consulter le détail des permissions, toutes les permissions disponibles de tous les modules sont affichées :</p>
+<img alt="https://github.com/PnX-SI/GeoNature/assets/4418840/6cd94fc1-b597-423e-99de-c58e48291a0f" src="https://github.com/PnX-SI/GeoNature/assets/4418840/6cd94fc1-b597-423e-99de-c58e48291a0f" />
+<p>Les permissions sur fond rouge, qui affichent uniquement un + indiquent que le groupe ou utilisateur n’a pas cette permission et qu’on peut lui ajouter en cliquant sur ce +.</p>
+<p>Les permissions dont disposent le groupe ou l’utilisateur sont indiquées en vert (si sans filtre) ou en bleu (si avec filtre) :</p>
+<img alt="https://github.com/PnX-SI/GeoNature/assets/4418840/6a3bb721-0741-4aec-b8ad-eb0bbeade675" src="https://github.com/PnX-SI/GeoNature/assets/4418840/6a3bb721-0741-4aec-b8ad-eb0bbeade675" />
+<hr class="docutils" />
+<p>Pour les utilisateurs sont listées les permissions qui lui sont attribués directement individuellement, mais aussi les permissions effectives qui s’appliquent à lui (selon les groupes auquel il appartient) :</p>
+<img alt="https://github.com/PnX-SI/GeoNature/assets/4418840/75486b5c-a571-4c3a-9fd5-ff57328776c7" src="https://github.com/PnX-SI/GeoNature/assets/4418840/75486b5c-a571-4c3a-9fd5-ff57328776c7" />
 </section>
-<section id="metadonnees">
-<h2>Metadonnées<a class="headerlink" href="#metadonnees" title="Lien permanent vers cette rubrique"></a></h2>
-<p>Ce module permet de gérer les métadonnées (Cadres d’acquisition et jeux de données), basées sur le standard Métadonnées du SINP
-(<a class="reference external" href="http://standards-sinp.mnhn.fr/category/standards/metadonnees/">http://standards-sinp.mnhn.fr/category/standards/metadonnees/</a>).</p>
 </section>
 </section>
 
@@ -385,7 +500,7 @@ Il permet notamment de gérer les permissions (CRUVED et autres filtres), les no
   <hr/>
 
   <div role="contentinfo">
-    <p>&#169; Copyright 2018-2019, PnE, PnC.</p>
+    <p>&#169; Copyright 2018-2023, PnE, PnC.</p>
   </div>
 
   Compilé avec <a href="https://www.sphinx-doc.org/">Sphinx</a> en utilisant un
