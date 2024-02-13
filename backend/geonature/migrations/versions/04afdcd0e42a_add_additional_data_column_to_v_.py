@@ -1,7 +1,7 @@
 """add additional_data column to v_synthese_for_web_app
 
 Revision ID: 04afdcd0e42a
-Revises: d99a7c22cc3c
+Revises: 6734d8f7eb2a
 Create Date: 2023-12-19 15:26:36.530424
 
 """
@@ -11,7 +11,7 @@ import sqlalchemy as sa
 
 # revision identifiers, used by Alembic.
 revision = "04afdcd0e42a"
-down_revision = "d99a7c22cc3c"
+down_revision = "6734d8f7eb2a"
 branch_labels = None
 depends_on = None
 
