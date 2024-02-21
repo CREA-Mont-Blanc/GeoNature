@@ -1,7 +1,7 @@
 """add additional_data column to v_synthese_for_web_app
 
 Revision ID: 04afdcd0e42a
-Revises: 6734d8f7eb2a
+Revises: d99a7c22cc3c
 Create Date: 2023-12-19 15:26:36.530424
 
 """
