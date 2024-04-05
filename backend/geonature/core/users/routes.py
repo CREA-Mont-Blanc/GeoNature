@@ -42,6 +42,7 @@ user_fields = {
     "groupe",
     "active",
     "champs_addi",
+    "date_insert",
 }
 organism_fields = {
     "id_organisme",
