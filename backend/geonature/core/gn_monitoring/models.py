@@ -4,28 +4,42 @@ Correspond a la centralisation des données de base
     relatifs aux protocoles de suivis
 """
 
-from flask import g
 from datetime import datetime
 
+from flask import g
 from geoalchemy2 import Geometry
-from sqlalchemy import ForeignKey, or_, false
-from sqlalchemy.orm import relationship
-from sqlalchemy.dialects.postgresql import UUID, JSONB
-from sqlalchemy.sql import select, func
-from sqlalchemy.schema import FetchedValue
-from sqlalchemy.ext.hybrid import hybrid_property
-
-
 from pypnnomenclature.models import TNomenclatures
 from pypnusershub.db.models import User
 from ref_geo.models import LAreas
+from sqlalchemy import ForeignKey, false, or_
+from sqlalchemy.dialects.postgresql import JSONB, UUID
+from sqlalchemy.ext.hybrid import hybrid_property
+from sqlalchemy.orm import relationship
+from sqlalchemy.schema import FetchedValue
+from sqlalchemy.sql import func, select
 from utils_flask_sqla.serializers import serializable
 from utils_flask_sqla_geo.serializers import geoserializable
 
-from geonature.core.gn_commons.models import TModules, TMedias
+from geonature.core.gn_commons.models import TMedias, TModules
 from geonature.core.gn_meta.models import TDatasets
 from geonature.utils.env import DB
 
+cor_site_observer = DB.Table(
+    "cor_site_observer",
+    DB.Column(
+        "id_base_site",
+        DB.Integer,
+        ForeignKey("gn_monitoring.t_base_sites.id_base_site"),
+        primary_key=True,
+    ),
+    DB.Column(
+        "id_role",
+        DB.Integer,
+        ForeignKey("utilisateurs.t_roles.id_role"),
+        primary_key=True,
+    ),
+    schema="gn_monitoring",
+)
 
 cor_visit_observer = DB.Table(
     "cor_visit_observer",
@@ -201,8 +215,17 @@ class TBaseSites(DB.Model):
     digitiser = relationship(
         User, primaryjoin=(User.id_role == id_digitiser), foreign_keys=[id_digitiser]
     )
+
     inventor = relationship(
         User, primaryjoin=(User.id_role == id_inventor), foreign_keys=[id_inventor]
+    )
+
+    observers = DB.relationship(
+        User,
+        secondary=cor_site_observer,
+        primaryjoin=(cor_site_observer.c.id_base_site == id_base_site),
+        secondaryjoin=(cor_site_observer.c.id_role == User.id_role),
+        foreign_keys=[cor_site_observer.c.id_base_site, cor_site_observer.c.id_role],
     )
 
     t_base_visits = relationship("TBaseVisits", lazy="select", cascade="all,delete-orphan")
@@ -261,7 +284,7 @@ class TMarkingEvent(DB.Model):
     id_marking = DB.Column(DB.Integer, primary_key=True, autoincrement=True)
     uuid_marking = DB.Column(UUID(as_uuid=True), default=select(func.uuid_generate_v4()))
     id_individual = DB.Column(
-        DB.ForeignKey(f"gn_monitoring.t_individuals.id_individual", ondelete="CASCADE"),
+        DB.ForeignKey("gn_monitoring.t_individuals.id_individual", ondelete="CASCADE"),
         nullable=False,
     )
     id_module = DB.Column(
