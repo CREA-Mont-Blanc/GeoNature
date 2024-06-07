@@ -1,34 +1,27 @@
-import logging
-import requests
 import json
+import logging
 
+import requests
+from flask import Blueprint, Response, current_app, g, redirect, render_template, request
+from pypnusershub.db.models import Application, Organisme, User, UserList
+from pypnusershub.db.models_register import TempUser
+from pypnusershub.env import REGISTER_POST_ACTION_FCT
+from pypnusershub.routes_register import bp as user_api
+from sqlalchemy import and_, distinct, exists, select
+from sqlalchemy.sql import and_, distinct
+from utils_flask_sqla.response import json_resp
+from werkzeug.exceptions import BadRequest, Forbidden, NotFound
 
-from flask import Blueprint, request, current_app, Response, redirect, g, render_template
-from sqlalchemy.sql import distinct, and_
-from sqlalchemy import distinct, and_, select, exists
-from werkzeug.exceptions import NotFound, BadRequest, Forbidden
-
-from geonature.utils.env import DB
-from geonature.core.gn_permissions import decorators as permissions
 from geonature.core.gn_meta.models import CorDatasetActor, TDatasets
-from geonature.core.users.models import (
-    VUserslistForallMenu,
-    CorRole,
-)
-from geonature.utils.config import config
-from pypnusershub.db.models import Organisme, User, UserList
+from geonature.core.gn_permissions import decorators as permissions
+from geonature.core.users.models import VUserslistForallMenu
 from geonature.core.users.register_post_actions import (
-    validate_temp_user,
     execute_actions_after_validation,
     send_email_for_recovery,
+    validate_temp_user,
 )
-
-from pypnusershub.env import REGISTER_POST_ACTION_FCT
-from pypnusershub.db.models import User, Application
-from pypnusershub.db.models_register import TempUser
-from pypnusershub.routes_register import bp as user_api
-from utils_flask_sqla.response import json_resp
-
+from geonature.utils.config import config
+from geonature.utils.env import DB
 
 routes = Blueprint("users", __name__, template_folder="templates")
 log = logging.getLogger()
@@ -45,6 +38,8 @@ user_fields = {
     "groupe",
     "active",
     "remarques",
+    "champs_addi",
+    "date_insert",
 }
 organism_fields = {
     "id_organisme",
