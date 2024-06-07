@@ -1,7 +1,7 @@
 """add group3 inpn to synthese views
 
 Revision ID: 9f4db1786c22
-Revises: 446e902a14e7
+Revises: 5a2c9c65129f
 Create Date: 2023-07-21 14:15:23.311469
 
 """
