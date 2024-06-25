@@ -23,152 +23,155 @@ def upgrade():
         CREATE OR REPLACE FUNCTION pr_occtax.insert_in_synthese(my_id_counting integer)
             RETURNS integer[]
             LANGUAGE plpgsql
-            AS $function$  DECLARE
-            new_count RECORD;
-            occurrence RECORD;
-            releve RECORD;
-            id_source integer;
-            id_nomenclature_source_status integer;
-            myobservers RECORD;
-            id_role_loop integer;
+        AS $function$  
+            DECLARE
+                new_count RECORD;
+                occurrence RECORD;
+                releve RECORD;
+                id_source integer;
+                id_nomenclature_source_status integer;
+                myobservers RECORD;
+                id_role_loop integer;
 
             BEGIN
-            --recupération du counting à partir de son ID
-            SELECT INTO new_count * FROM pr_occtax.cor_counting_occtax WHERE id_counting_occtax = my_id_counting;
+                --recupération du counting à partir de son ID
+                SELECT * INTO new_count FROM pr_occtax.cor_counting_occtax cco WHERE cco.id_counting_occtax = my_id_counting;
 
-            -- Récupération de l'occurrence
-            SELECT INTO occurrence * FROM pr_occtax.t_occurrences_occtax occ WHERE occ.id_occurrence_occtax = new_count.id_occurrence_occtax;
+                -- Récupération de l'occurrence
+                SELECT * INTO occurrence FROM pr_occtax.t_occurrences_occtax occ WHERE occ.id_occurrence_occtax = new_count.id_occurrence_occtax;
 
-            -- Récupération du relevé
-            SELECT INTO releve * FROM pr_occtax.t_releves_occtax rel WHERE occurrence.id_releve_occtax = rel.id_releve_occtax;
+                -- Récupération du relevé
+                SELECT * INTO releve FROM pr_occtax.t_releves_occtax rel WHERE occurrence.id_releve_occtax = rel.id_releve_occtax;
 
-            -- Récupération de la source
-            SELECT INTO id_source s.id_source FROM gn_synthese.t_sources s WHERE id_module = releve.id_module;
+                -- Récupération de la source
+                SELECT s.id_source INTO id_source FROM gn_synthese.t_sources s WHERE id_module = releve.id_module;
 
-            -- Récupération du status_source depuis le JDD
-            SELECT INTO id_nomenclature_source_status d.id_nomenclature_source_status FROM gn_meta.t_datasets d WHERE id_dataset = releve.id_dataset;
+                -- Récupération du status_source depuis le JDD
+                SELECT d.id_nomenclature_source_status INTO id_nomenclature_source_status FROM gn_meta.t_datasets d WHERE id_dataset = releve.id_dataset;
 
-            --Récupération et formatage des observateurs
-            SELECT INTO myobservers array_to_string(array_agg(rol.nom_role || ' ' || rol.prenom_role), ', ') AS observers_name,
-            array_agg(rol.id_role) AS observers_id
-            FROM pr_occtax.cor_role_releves_occtax cor
-            JOIN utilisateurs.t_roles rol ON rol.id_role = cor.id_role
-            WHERE cor.id_releve_occtax = releve.id_releve_occtax;
+                --Récupération et formatage des observateurs
+                SELECT 
+                    array_to_string(array_agg(rol.nom_role || ' ' || rol.prenom_role), ', ') AS observers_name,
+                    array_agg(rol.id_role) AS observers_id
+                INTO myobservers 
+                FROM pr_occtax.cor_role_releves_occtax cor
+                JOIN utilisateurs.t_roles rol ON rol.id_role = cor.id_role
+                WHERE cor.id_releve_occtax = releve.id_releve_occtax;
 
-            -- insertion dans la synthese
-            INSERT INTO gn_synthese.synthese (
-            unique_id_sinp,
-            unique_id_sinp_grp,
-            id_source,
-            entity_source_pk_value,
-            id_dataset,
-            id_module,
-            id_nomenclature_geo_object_nature,
-            id_nomenclature_grp_typ,
-            grp_method,
-            id_nomenclature_obs_technique,
-            id_nomenclature_bio_status,
-            id_nomenclature_bio_condition,
-            id_nomenclature_naturalness,
-            id_nomenclature_exist_proof,
-            id_nomenclature_diffusion_level,
-            id_nomenclature_life_stage,
-            id_nomenclature_sex,
-            id_nomenclature_obj_count,
-            id_nomenclature_type_count,
-            id_nomenclature_observation_status,
-            id_nomenclature_blurring,
-            id_nomenclature_source_status,
-            id_nomenclature_info_geo_type,
-            id_nomenclature_behaviour,
-            count_min,
-            count_max,
-            cd_nom,
-            cd_hab,
-            nom_cite,
-            meta_v_taxref,
-            sample_number_proof,
-            digital_proof,
-            non_digital_proof,
-            altitude_min,
-            altitude_max,
-            depth_min,
-            depth_max,
-            place_name,
-            precision,
-            the_geom_4326,
-            the_geom_point,
-            the_geom_local,
-            date_min,
-            date_max,
-            observers,
-            determiner,
-            id_digitiser,
-            id_nomenclature_determination_method,
-            comment_context,
-            comment_description,
-            last_action,
-            additional_data
-            )
-            VALUES(
-                new_count.unique_id_sinp_occtax,
-                releve.unique_id_sinp_grp,
+                -- insertion dans la synthese
+                INSERT INTO gn_synthese.synthese (
+                unique_id_sinp,
+                unique_id_sinp_grp,
                 id_source,
-                new_count.id_counting_occtax,
-                releve.id_dataset,
-                releve.id_module,
-                releve.id_nomenclature_geo_object_nature,
-                releve.id_nomenclature_grp_typ,
-                releve.grp_method,
-                occurrence.id_nomenclature_obs_technique,
-                occurrence.id_nomenclature_bio_status,
-                occurrence.id_nomenclature_bio_condition,
-                occurrence.id_nomenclature_naturalness,
-                occurrence.id_nomenclature_exist_proof,
-                occurrence.id_nomenclature_diffusion_level,
-                new_count.id_nomenclature_life_stage,
-                new_count.id_nomenclature_sex,
-                new_count.id_nomenclature_obj_count,
-                new_count.id_nomenclature_type_count,
-                occurrence.id_nomenclature_observation_status,
-                occurrence.id_nomenclature_blurring,
-                -- status_source récupéré depuis le JDD
+                entity_source_pk_value,
+                id_dataset,
+                id_module,
+                id_nomenclature_geo_object_nature,
+                id_nomenclature_grp_typ,
+                grp_method,
+                id_nomenclature_obs_technique,
+                id_nomenclature_bio_status,
+                id_nomenclature_bio_condition,
+                id_nomenclature_naturalness,
+                id_nomenclature_exist_proof,
+                id_nomenclature_diffusion_level,
+                id_nomenclature_life_stage,
+                id_nomenclature_sex,
+                id_nomenclature_obj_count,
+                id_nomenclature_type_count,
+                id_nomenclature_observation_status,
+                id_nomenclature_blurring,
                 id_nomenclature_source_status,
-                -- id_nomenclature_info_geo_type: type de rattachement = non saisissable: georeferencement
-                ref_nomenclatures.get_id_nomenclature('TYP_INF_GEO', '1'),
-                occurrence.id_nomenclature_behaviour,
-                new_count.count_min,
-                new_count.count_max,
-                occurrence.cd_nom,
-                releve.cd_hab,
-                occurrence.nom_cite,
-                occurrence.meta_v_taxref,
-                occurrence.sample_number_proof,
-                occurrence.digital_proof,
-                occurrence.non_digital_proof,
-                releve.altitude_min,
-                releve.altitude_max,
-                releve.depth_min,
-                releve.depth_max,
-                releve.place_name,
-                releve.precision,
-                releve.geom_4326,
-                ST_CENTROID(releve.geom_4326),
-                releve.geom_local,
-                date_trunc('day',releve.date_min)+COALESCE(releve.hour_min,'00:00:00'::time),
-                date_trunc('day',releve.date_max)+COALESCE(releve.hour_max,'00:00:00'::time),
-                COALESCE (myobservers.observers_name, releve.observers_txt),
-                occurrence.determiner,
-                releve.id_digitiser,
-                occurrence.id_nomenclature_determination_method,
-                releve.comment,
-                occurrence.comment,
-                'I',
-                COALESCE(nullif(releve.additional_fields,'[]'::jsonb), '{}'::jsonb) || COALESCE(nullif(occurrence.additional_fields,'[]'::jsonb), '{}'::jsonb) || COALESCE(nullif(new_count.additional_fields,'[]'::jsonb), '{}'::jsonb) || jsonb_build_object('ids_observers', myobservers.observers_id) || jsonb_build_object('id_base_site', releve.id_releve_occtax, 'id_base_visit', occurence.id_occurence_occtax)
-            );
+                id_nomenclature_info_geo_type,
+                id_nomenclature_behaviour,
+                count_min,
+                count_max,
+                cd_nom,
+                cd_hab,
+                nom_cite,
+                meta_v_taxref,
+                sample_number_proof,
+                digital_proof,
+                non_digital_proof,
+                altitude_min,
+                altitude_max,
+                depth_min,
+                depth_max,
+                place_name,
+                precision,
+                the_geom_4326,
+                the_geom_point,
+                the_geom_local,
+                date_min,
+                date_max,
+                observers,
+                determiner,
+                id_digitiser,
+                id_nomenclature_determination_method,
+                comment_context,
+                comment_description,
+                last_action,
+                additional_data
+                )
+                VALUES(
+                    new_count.unique_id_sinp_occtax,
+                    releve.unique_id_sinp_grp,
+                    id_source,
+                    new_count.id_counting_occtax,
+                    releve.id_dataset,
+                    releve.id_module,
+                    releve.id_nomenclature_geo_object_nature,
+                    releve.id_nomenclature_grp_typ,
+                    releve.grp_method,
+                    occurrence.id_nomenclature_obs_technique,
+                    occurrence.id_nomenclature_bio_status,
+                    occurrence.id_nomenclature_bio_condition,
+                    occurrence.id_nomenclature_naturalness,
+                    occurrence.id_nomenclature_exist_proof,
+                    occurrence.id_nomenclature_diffusion_level,
+                    new_count.id_nomenclature_life_stage,
+                    new_count.id_nomenclature_sex,
+                    new_count.id_nomenclature_obj_count,
+                    new_count.id_nomenclature_type_count,
+                    occurrence.id_nomenclature_observation_status,
+                    occurrence.id_nomenclature_blurring,
+                    -- status_source récupéré depuis le JDD
+                    id_nomenclature_source_status,
+                    -- id_nomenclature_info_geo_type: type de rattachement = non saisissable: georeferencement
+                    ref_nomenclatures.get_id_nomenclature('TYP_INF_GEO', '1'),
+                    occurrence.id_nomenclature_behaviour,
+                    new_count.count_min,
+                    new_count.count_max,
+                    occurrence.cd_nom,
+                    releve.cd_hab,
+                    occurrence.nom_cite,
+                    occurrence.meta_v_taxref,
+                    occurrence.sample_number_proof,
+                    occurrence.digital_proof,
+                    occurrence.non_digital_proof,
+                    releve.altitude_min,
+                    releve.altitude_max,
+                    releve.depth_min,
+                    releve.depth_max,
+                    releve.place_name,
+                    releve.precision,
+                    releve.geom_4326,
+                    ST_CENTROID(releve.geom_4326),
+                    releve.geom_local,
+                    date_trunc('day',releve.date_min)+COALESCE(releve.hour_min,'00:00:00'::time),
+                    date_trunc('day',releve.date_max)+COALESCE(releve.hour_max,'00:00:00'::time),
+                    COALESCE (myobservers.observers_name, releve.observers_txt),
+                    occurrence.determiner,
+                    releve.id_digitiser,
+                    occurrence.id_nomenclature_determination_method,
+                    releve.comment,
+                    occurrence.comment,
+                    'I',
+                    COALESCE(nullif(releve.additional_fields,'[]'::jsonb), '{}'::jsonb) || COALESCE(nullif(occurrence.additional_fields,'[]'::jsonb), '{}'::jsonb) || COALESCE(nullif(new_count.additional_fields,'[]'::jsonb), '{}'::jsonb) || jsonb_build_object('ids_observers', myobservers.observers_id) || jsonb_build_object('id_base_site', releve.id_releve_occtax, 'id_base_visit', occurence.id_occurence_occtax)
+                );
 
 
-            RETURN myobservers.observers_id ;
+                RETURN myobservers.observers_id ;
             END;
             $function$;
         """
@@ -183,11 +186,12 @@ def upgrade():
         myobservers RECORD;
         BEGIN
         --Récupération et formatage des observateurs
-        SELECT INTO myobservers 
+        SELECT 
             array_agg(rol.id_role) AS observers_id
-            FROM pr_occtax.cor_role_releves_occtax cor
-            JOIN utilisateurs.t_roles rol ON rol.id_role = cor.id_role
-            WHERE cor.id_releve_occtax = NEW.id_releve_occtax;
+        INTO myobservers 
+        FROM pr_occtax.cor_role_releves_occtax cor
+        JOIN utilisateurs.t_roles rol ON rol.id_role = cor.id_role
+        WHERE cor.id_releve_occtax = NEW.id_releve_occtax;
         
         --mise à jour en synthese des informations correspondant au relevé uniquement
         UPDATE gn_synthese.synthese s SET
@@ -233,11 +237,12 @@ def upgrade():
                 releve_add_fields jsonb;
                 myobservers RECORD;
             BEGIN
-                SELECT INTO myobservers 
+                SELECT 
                     array_agg(rol.id_role) AS observers_id
-                    FROM pr_occtax.cor_role_releves_occtax cor
-                    JOIN utilisateurs.t_roles rol ON rol.id_role = cor.id_role
-                    WHERE cor.id_releve_occtax = NEW.id_releve_occtax;
+                INTO myobservers 
+                FROM pr_occtax.cor_role_releves_occtax cor
+                JOIN utilisateurs.t_roles rol ON rol.id_role = cor.id_role
+                WHERE cor.id_releve_occtax = NEW.id_releve_occtax;
 
                 SELECT r.additional_fields into releve_add_fields from pr_occtax.t_releves_occtax r where id_releve_occtax = new.id_releve_occtax;
                 
@@ -262,9 +267,7 @@ def upgrade():
                     non_digital_proof = NEW.non_digital_proof,
                     comment_description = NEW.comment,
                     last_action = 'U',
-                    --CHAMPS ADDITIONNELS OCCTAX
                     additional_data = COALESCE(nullif(releve_add_fields,'[]'::jsonb), '{}'::jsonb) || COALESCE(nullif(NEW.additional_fields,'[]'::jsonb), '{}'::jsonb) || COALESCE(nullif(c.additional_fields,'[]'::jsonb), '{}'::jsonb)  || jsonb_build_object( 'ids_observers', myobservers.observers_id) || jsonb_build_object('id_base_site', NEW.id_releve_occtax, 'id_base_visit', NEW.id_occurence_occtax)
-            FROM pr_occtax.cor_counting_occtax c
                 FROM pr_occtax.cor_counting_occtax c
                 WHERE s.unique_id_sinp = c.unique_id_sinp_occtax AND NEW.id_occurrence_occtax = c.id_occurrence_occtax ;
                 RETURN NULL;
@@ -284,12 +287,13 @@ def upgrade():
         BEGIN
 
             -- Récupération de l'occurrence
-            SELECT INTO occurrence * FROM pr_occtax.t_occurrences_occtax occ WHERE occ.id_occurrence_occtax = NEW.id_occurrence_occtax;
+            SELECT * INTO occurrence FROM pr_occtax.t_occurrences_occtax WHERE id_occurrence_occtax = NEW.id_occurrence_occtax;
             -- Récupération du relevé
-            SELECT INTO releve * FROM pr_occtax.t_releves_occtax rel WHERE occurrence.id_releve_occtax = rel.id_releve_occtax;
+            SELECT * INTO releve FROM pr_occtax.t_releves_occtax rel WHERE occurrence.id_releve_occtax = rel.id_releve_occtax;
             
-            SELECT INTO myobservers 
+            SELECT 
                 array_agg(rol.id_role) AS observers_id
+            INTO myobservers 
             FROM pr_occtax.cor_role_releves_occtax cor
             JOIN utilisateurs.t_roles rol ON rol.id_role = cor.id_role
             WHERE cor.id_releve_occtax = releve.id_releve_occtax;
@@ -332,10 +336,11 @@ def upgrade():
             myobservers RECORD;
         BEGIN
             -- Récupération des id_counting à partir de l'id_releve
-            SELECT INTO uuids_counting pr_occtax.get_unique_id_sinp_from_id_releve(NEW.id_releve_occtax::integer);
+            SELECT pr_occtax.get_unique_id_sinp_from_id_releve(NEW.id_releve_occtax::integer) INTO uuids_counting;
 
-            SELECT INTO myobservers 
+            SELECT
                 array_agg(rol.id_role) AS observers_id
+            INTO myobservers 
             FROM pr_occtax.cor_role_releves_occtax cor
             JOIN utilisateurs.t_roles rol ON rol.id_role = cor.id_role
             WHERE cor.id_releve_occtax = NEW.id_releve_occtax;
@@ -371,10 +376,11 @@ def upgrade():
             myobservers RECORD;
         BEGIN
             -- Récupération des id_counting à partir de l'id_releve
-            SELECT INTO uuids_counting pr_occtax.get_unique_id_sinp_from_id_releve(OLD.id_releve_occtax::integer);
+            SELECT pr_occtax.get_unique_id_sinp_from_id_releve(OLD.id_releve_occtax::integer) INTO uuids_counting;
 
-            SELECT INTO myobservers 
+            SELECT 
                 array_agg(rol.id_role) AS observers_id
+            INTO myobservers 
             FROM pr_occtax.cor_role_releves_occtax cor
             JOIN utilisateurs.t_roles rol ON rol.id_role = cor.id_role
             WHERE cor.id_releve_occtax = OLD.id_releve_occtax;
@@ -410,10 +416,11 @@ def upgrade():
             myobservers RECORD;
         BEGIN
             -- Récupération des id_counting à partir de l'id_releve
-            SELECT INTO uuids_counting pr_occtax.get_unique_id_sinp_from_id_releve(NEW.id_releve_occtax::integer);
+            SELECT pr_occtax.get_unique_id_sinp_from_id_releve(NEW.id_releve_occtax::integer) INTO uuids_counting;
 
-            SELECT INTO myobservers
+            SELECT 
                 array_agg(rol.id_role) AS observers_id
+            INTO myobservers
             FROM pr_occtax.cor_role_releves_occtax cor
             JOIN utilisateurs.t_roles rol ON rol.id_role = cor.id_role
             WHERE cor.id_releve_occtax = NEW.id_releve_occtax;
@@ -439,6 +446,18 @@ def upgrade():
         """
     )
 
+    # correction des données de synthese suite au bug des dénombrement
+    op.execute(
+        """
+        UPDATE gn_synthese.synthese s
+        SET additional_data = COALESCE(nullif(rel.additional_fields,'[]'::jsonb), '{}'::jsonb) || COALESCE(nullif(occ.additional_fields,'[]'::jsonb), '{}'::jsonb) || COALESCE(nullif(cor.additional_fields,'[]'::jsonb), '{}'::jsonb)  || jsonb_build_object('id_base_site', rel.id_releve_occtax, 'id_base_visit', occ.id_occurrence_occtax)
+        FROM pr_occtax.t_releves_occtax rel
+        JOIN pr_occtax.t_occurrences_occtax occ ON rel.id_releve_occtax = occ.id_releve_occtax 
+        JOIN pr_occtax.cor_counting_occtax cor ON cor.id_occurrence_occtax = occ.id_occurrence_occtax 
+        WHERE s.unique_id_sinp = cor.unique_id_sinp_occtax 
+        """
+    )
+
 
 def downgrade():
     op.execute(
@@ -457,23 +476,25 @@ def downgrade():
 
             BEGIN
             --recupération du counting à partir de son ID
-            SELECT INTO new_count * FROM pr_occtax.cor_counting_occtax WHERE id_counting_occtax = my_id_counting;
+            SELECT * INTO new_count FROM pr_occtax.cor_counting_occtax WHERE id_counting_occtax = my_id_counting;
 
             -- Récupération de l'occurrence
-            SELECT INTO occurrence * FROM pr_occtax.t_occurrences_occtax occ WHERE occ.id_occurrence_occtax = new_count.id_occurrence_occtax;
+            SELECT * INTO occurrence FROM pr_occtax.t_occurrences_occtax occ WHERE occ.id_occurrence_occtax = new_count.id_occurrence_occtax;
 
             -- Récupération du relevé
-            SELECT INTO releve * FROM pr_occtax.t_releves_occtax rel WHERE occurrence.id_releve_occtax = rel.id_releve_occtax;
+            SELECT * INTO releve FROM pr_occtax.t_releves_occtax rel WHERE occurrence.id_releve_occtax = rel.id_releve_occtax;
 
             -- Récupération de la source
-            SELECT INTO id_source s.id_source FROM gn_synthese.t_sources s WHERE id_module = releve.id_module;
+            SELECT s.id_source INTO id_source FROM gn_synthese.t_sources s WHERE id_module = releve.id_module;
 
             -- Récupération du status_source depuis le JDD
-            SELECT INTO id_nomenclature_source_status d.id_nomenclature_source_status FROM gn_meta.t_datasets d WHERE id_dataset = releve.id_dataset;
+            SELECT d.id_nomenclature_source_status INTO id_nomenclature_source_status FROM gn_meta.t_datasets d WHERE id_dataset = releve.id_dataset;
 
             --Récupération et formatage des observateurs
-            SELECT INTO myobservers array_to_string(array_agg(rol.nom_role || ' ' || rol.prenom_role), ', ') AS observers_name,
-            array_agg(rol.id_role) AS observers_id
+            SELECT 
+                array_to_string(array_agg(rol.nom_role || ' ' || rol.prenom_role), ', ') AS observers_name,
+                array_agg(rol.id_role) AS observers_id
+            INTO myobservers 
             FROM pr_occtax.cor_role_releves_occtax cor
             JOIN utilisateurs.t_roles rol ON rol.id_role = cor.id_role
             WHERE cor.id_releve_occtax = releve.id_releve_occtax;
@@ -606,12 +627,13 @@ def downgrade():
         myobservers RECORD;
         BEGIN
         --Récupération et formatage des observateurs
-        SELECT INTO myobservers 
+        SELECT 
             array_agg(rol.id_role) AS observers_id
-            FROM pr_occtax.cor_role_releves_occtax cor
-            JOIN utilisateurs.t_roles rol ON rol.id_role = cor.id_role
-            WHERE cor.id_releve_occtax = NEW.id_releve_occtax;
-        
+        INTO myobservers 
+        FROM pr_occtax.cor_role_releves_occtax cor
+        JOIN utilisateurs.t_roles rol ON rol.id_role = cor.id_role
+        WHERE cor.id_releve_occtax = NEW.id_releve_occtax;
+    
         --mise à jour en synthese des informations correspondant au relevé uniquement
         UPDATE gn_synthese.synthese s SET
             id_dataset = NEW.id_dataset,
@@ -656,11 +678,12 @@ def downgrade():
                 releve_add_fields jsonb;
                 myobservers RECORD;
             BEGIN
-                SELECT INTO myobservers 
+                SELECT 
                     array_agg(rol.id_role) AS observers_id
-                    FROM pr_occtax.cor_role_releves_occtax cor
-                    JOIN utilisateurs.t_roles rol ON rol.id_role = cor.id_role
-                    WHERE cor.id_releve_occtax = NEW.id_releve_occtax;
+                INTO myobservers 
+                FROM pr_occtax.cor_role_releves_occtax cor
+                JOIN utilisateurs.t_roles rol ON rol.id_role = cor.id_role
+                WHERE cor.id_releve_occtax = NEW.id_releve_occtax;
 
                 SELECT r.additional_fields into releve_add_fields from pr_occtax.t_releves_occtax r where id_releve_occtax = new.id_releve_occtax;
                 
@@ -706,12 +729,13 @@ def downgrade():
         BEGIN
 
             -- Récupération de l'occurrence
-            SELECT INTO occurrence * FROM pr_occtax.t_occurrences_occtax occ WHERE occ.id_occurrence_occtax = NEW.id_occurrence_occtax;
+            SELECT * INTO occurrence FROM pr_occtax.t_occurrences_occtax occ WHERE occ.id_occurrence_occtax = NEW.id_occurrence_occtax;
             -- Récupération du relevé
-            SELECT INTO releve * FROM pr_occtax.t_releves_occtax rel WHERE occurrence.id_releve_occtax = rel.id_releve_occtax;
+            SELECT * INTO releve FROM pr_occtax.t_releves_occtax rel WHERE occurrence.id_releve_occtax = rel.id_releve_occtax;
             
-            SELECT INTO myobservers 
+            SELECT 
                 array_agg(rol.id_role) AS observers_id
+            INTO myobservers 
             FROM pr_occtax.cor_role_releves_occtax cor
             JOIN utilisateurs.t_roles rol ON rol.id_role = cor.id_role
             WHERE cor.id_releve_occtax = releve.id_releve_occtax;
@@ -753,10 +777,11 @@ def downgrade():
             myobservers RECORD;
         BEGIN
             -- Récupération des id_counting à partir de l'id_releve
-            SELECT INTO uuids_counting pr_occtax.get_unique_id_sinp_from_id_releve(NEW.id_releve_occtax::integer);
+            SELECT pr_occtax.get_unique_id_sinp_from_id_releve(NEW.id_releve_occtax::integer) INTO uuids_counting;
 
-            SELECT INTO myobservers 
+            SELECT 
                 array_agg(rol.id_role) AS observers_id
+            INTO myobservers 
             FROM pr_occtax.cor_role_releves_occtax cor
             JOIN utilisateurs.t_roles rol ON rol.id_role = cor.id_role
             WHERE cor.id_releve_occtax = NEW.id_releve_occtax;
@@ -792,10 +817,11 @@ def downgrade():
             myobservers RECORD;
         BEGIN
             -- Récupération des id_counting à partir de l'id_releve
-            SELECT INTO uuids_counting pr_occtax.get_unique_id_sinp_from_id_releve(OLD.id_releve_occtax::integer);
+            SELECT pr_occtax.get_unique_id_sinp_from_id_releve(OLD.id_releve_occtax::integer) INTO uuids_counting;
 
-            SELECT INTO myobservers 
+            SELECT 
                 array_agg(rol.id_role) AS observers_id
+            INTO myobservers 
             FROM pr_occtax.cor_role_releves_occtax cor
             JOIN utilisateurs.t_roles rol ON rol.id_role = cor.id_role
             WHERE cor.id_releve_occtax = OLD.id_releve_occtax;
@@ -825,16 +851,17 @@ def downgrade():
     CREATE OR REPLACE FUNCTION pr_occtax.fct_tri_synthese_insert_cor_role_releve()
         RETURNS trigger
         LANGUAGE plpgsql
-        AS $function$
+    AS $function$
         DECLARE
             uuids_counting  uuid[];
             myobservers RECORD;
         BEGIN
             -- Récupération des id_counting à partir de l'id_releve
-            SELECT INTO uuids_counting pr_occtax.get_unique_id_sinp_from_id_releve(NEW.id_releve_occtax::integer);
+            SELECT pr_occtax.get_unique_id_sinp_from_id_releve(NEW.id_releve_occtax::integer) INTO uuids_counting;
 
-            SELECT INTO myobservers
+            SELECT 
                 array_agg(rol.id_role) AS observers_id
+            INTO myobservers
             FROM pr_occtax.cor_role_releves_occtax cor
             JOIN utilisateurs.t_roles rol ON rol.id_role = cor.id_role
             WHERE cor.id_releve_occtax = NEW.id_releve_occtax;
