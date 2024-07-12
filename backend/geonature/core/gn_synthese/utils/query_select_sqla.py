@@ -10,45 +10,44 @@ import datetime
 import unicodedata
 import uuid
 
-from flask import current_app
-
 import sqlalchemy as sa
-from sqlalchemy import func, or_, and_, select, distinct, inspect
-from sqlalchemy.sql import text
-from sqlalchemy.orm import aliased
-from werkzeug.exceptions import BadRequest
-from shapely.geometry import shape
+from apptax.taxonomie.models import (
+    CorTaxonAttribut,
+    Taxref,
+    TaxrefBdcStatutCorTextValues,
+    TaxrefBdcStatutTaxon,
+    TaxrefBdcStatutText,
+    TaxrefBdcStatutValues,
+    TaxrefTree,
+    bdc_statut_cor_text_area,
+)
+from flask import current_app
 from geoalchemy2.shape import from_shape
 from geoalchemy2.types import Geography, Geometry
-
-from geonature.utils.env import DB
+from pypnnomenclature.models import BibNomenclaturesTypes, TNomenclatures
+from ref_geo.models import BibAreasTypes, LAreas
+from shapely.geometry import shape
+from sqlalchemy import and_, cast, distinct, func, inspect, or_, select
+from sqlalchemy.dialects.postgresql import JSONB
+from sqlalchemy.orm import aliased
+from sqlalchemy.sql import text
+from utils_flask_sqla_geo.schema import FeatureCollectionSchema, FeatureSchema
+from werkzeug.exceptions import BadRequest
 
 from geonature.core.gn_commons.models import TModules
-from geonature.core.gn_synthese.models import (
-    CorObserverSynthese,
-    CorAreaSynthese,
-    BibReportsTypes,
-    TReport,
-    TSources,
-)
 from geonature.core.gn_meta.models import (
     CorDatasetActor,
     TDatasets,
 )
-from geonature.utils.errors import GeonatureApiError
-from apptax.taxonomie.models import (
-    Taxref,
-    TaxrefTree,
-    CorTaxonAttribut,
-    TaxrefBdcStatutTaxon,
-    bdc_statut_cor_text_area,
-    TaxrefBdcStatutCorTextValues,
-    TaxrefBdcStatutText,
-    TaxrefBdcStatutValues,
+from geonature.core.gn_synthese.models import (
+    BibReportsTypes,
+    CorAreaSynthese,
+    CorObserverSynthese,
+    TReport,
+    TSources,
 )
-from ref_geo.models import LAreas, BibAreasTypes
-from utils_flask_sqla_geo.schema import FeatureSchema, FeatureCollectionSchema
-from pypnnomenclature.models import TNomenclatures, BibNomenclaturesTypes
+from geonature.utils.env import DB
+from geonature.utils.errors import GeonatureApiError
 
 
 class SyntheseQuery:
@@ -307,7 +306,7 @@ class SyntheseQuery:
             if colname.startswith("taxhub_attribut"):
                 # Test si la valeur n'est pas une liste transformation
                 # de value en liste pour utiliser le filtre IN
-                if not type(value) is list:
+                if type(value) is not list:
                     value = [value]
 
                 self.add_join(Taxref, Taxref.cd_nom, self.model.cd_nom)
@@ -361,6 +360,17 @@ class SyntheseQuery:
         """
         Other filters
         """
+        if "additional_data" in self.filters:
+            additional_data = self.filters.pop("additional_data")
+            for k, v in additional_data.items():
+                if k in ["cd_nom", "id_base_site", "id_base_visit"]:
+                    comparator = self.model.additional_data[k].astext
+                    comparator = cast(comparator, DB.Integer)
+                    self.query = self.query.where(comparator == v)
+                if k == "ids_observers":
+                    self.query = self.query.where(
+                        self.model.additional_data[k].comparator.contains(v)
+                    )
         if "has_medias" in self.filters:
             media_filter = self.model.medias.any()
             if self.filters["has_medias"] is False:

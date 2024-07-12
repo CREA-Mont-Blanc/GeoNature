@@ -676,7 +676,7 @@ class VSyntheseForWebApp(DB.Model):
     name_source = DB.Column(DB.Unicode)
     url_source = DB.Column(DB.Unicode)
     st_asgeojson = DB.Column(DB.Unicode)
-    additional_data = DB.Column(DB.Unicode)
+    additional_data = DB.Column(JSONB)
 
     areas = relationship(
         LAreas,
