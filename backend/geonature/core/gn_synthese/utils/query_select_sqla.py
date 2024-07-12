@@ -13,7 +13,7 @@ import uuid
 from flask import current_app
 
 import sqlalchemy as sa
-from sqlalchemy import func, or_, and_, select, distinct
+from sqlalchemy import func, or_, and_, select, distinct, cast
 from sqlalchemy.sql import text
 from sqlalchemy.orm import aliased
 from werkzeug.exceptions import BadRequest
@@ -23,6 +23,7 @@ from geoalchemy2.types import Geography, Geometry
 
 from geonature.utils.env import DB
 
+from sqlalchemy.dialects.postgresql import JSONB
 from geonature.core.gn_commons.models import TModules
 from geonature.core.gn_synthese.models import (
     CorObserverSynthese,
@@ -343,6 +344,17 @@ class SyntheseQuery:
         """
         Other filters
         """
+        if "additional_data" in self.filters:
+            additional_data = self.filters.pop("additional_data")
+            for k, v in additional_data.items():
+                if k in ["cd_nom", "id_base_site", "id_base_visit"]:
+                    comparator = self.model.additional_data[k].astext
+                    comparator = cast(comparator, DB.Integer)
+                    self.query = self.query.where(comparator == v)
+                if k == "ids_observers":
+                    self.query = self.query.where(
+                        self.model.additional_data[k].comparator.contains(v)
+                    )
         if "has_medias" in self.filters:
             media_filter = self.model.medias.any()
             if self.filters["has_medias"] is False:
