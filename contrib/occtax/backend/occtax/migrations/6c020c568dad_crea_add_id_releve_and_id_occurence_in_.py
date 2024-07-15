@@ -1,4 +1,4 @@
-"""[CREA] add id_releve and id_occurence in synthese
+"""[CREA] add id_releve and id_occurrence in synthese
 
 Revision ID: 6c020c568dad
 Revises: 3685b3cb1837
@@ -167,10 +167,8 @@ def upgrade():
                     releve.comment,
                     occurrence.comment,
                     'I',
-                    COALESCE(nullif(releve.additional_fields,'[]'::jsonb), '{}'::jsonb) || COALESCE(nullif(occurrence.additional_fields,'[]'::jsonb), '{}'::jsonb) || COALESCE(nullif(new_count.additional_fields,'[]'::jsonb), '{}'::jsonb) || jsonb_build_object('ids_observers', myobservers.observers_id) || jsonb_build_object('id_base_site', releve.id_releve_occtax, 'id_base_visit', occurence.id_occurence_occtax)
+                    COALESCE(nullif(releve.additional_fields,'[]'::jsonb), '{}'::jsonb) || COALESCE(nullif(occurrence.additional_fields,'[]'::jsonb), '{}'::jsonb) || COALESCE(nullif(new_count.additional_fields,'[]'::jsonb), '{}'::jsonb) || jsonb_build_object('ids_observers', myobservers.observers_id) || jsonb_build_object('id_base_site', releve.id_releve_occtax, 'id_base_visit', occurrence.id_occurrence_occtax)
                 );
-
-
                 RETURN myobservers.observers_id ;
             END;
             $function$;
@@ -216,7 +214,7 @@ def upgrade():
             id_nomenclature_geo_object_nature = NEW.id_nomenclature_geo_object_nature,
             last_action = 'U',
             comment_context = NEW.comment,
-            additional_data = COALESCE(nullif(NEW.additional_fields,'[]'::jsonb), '{}'::jsonb) || COALESCE(nullif(o.additional_fields,'[]'::jsonb), '{}'::jsonb) || COALESCE(nullif(c.additional_fields,'[]'::jsonb), '{}'::jsonb) || jsonb_build_object( 'ids_observers', myobservers.observers_id) || jsonb_build_object('id_base_site', NEW.id_releve_occtax, 'id_base_visit', o.id_occurence_occtax)
+            additional_data = COALESCE(nullif(NEW.additional_fields,'[]'::jsonb), '{}'::jsonb) || COALESCE(nullif(o.additional_fields,'[]'::jsonb), '{}'::jsonb) || COALESCE(nullif(c.additional_fields,'[]'::jsonb), '{}'::jsonb) || jsonb_build_object( 'ids_observers', myobservers.observers_id) || jsonb_build_object('id_base_site', NEW.id_releve_occtax, 'id_base_visit', o.id_occurrence_occtax)
             FROM pr_occtax.cor_counting_occtax c
             INNER JOIN pr_occtax.t_occurrences_occtax o ON c.id_occurrence_occtax = o.id_occurrence_occtax
             WHERE c.unique_id_sinp_occtax = s.unique_id_sinp
@@ -267,7 +265,7 @@ def upgrade():
                     non_digital_proof = NEW.non_digital_proof,
                     comment_description = NEW.comment,
                     last_action = 'U',
-                    additional_data = COALESCE(nullif(releve_add_fields,'[]'::jsonb), '{}'::jsonb) || COALESCE(nullif(NEW.additional_fields,'[]'::jsonb), '{}'::jsonb) || COALESCE(nullif(c.additional_fields,'[]'::jsonb), '{}'::jsonb)  || jsonb_build_object( 'ids_observers', myobservers.observers_id) || jsonb_build_object('id_base_site', NEW.id_releve_occtax, 'id_base_visit', NEW.id_occurence_occtax)
+                    additional_data = COALESCE(nullif(releve_add_fields,'[]'::jsonb), '{}'::jsonb) || COALESCE(nullif(NEW.additional_fields,'[]'::jsonb), '{}'::jsonb) || COALESCE(nullif(c.additional_fields,'[]'::jsonb), '{}'::jsonb)  || jsonb_build_object( 'ids_observers', myobservers.observers_id) || jsonb_build_object('id_base_site', NEW.id_releve_occtax, 'id_base_visit', NEW.id_occurrence_occtax)
                 FROM pr_occtax.cor_counting_occtax c
                 WHERE s.unique_id_sinp = c.unique_id_sinp_occtax AND NEW.id_occurrence_occtax = c.id_occurrence_occtax ;
                 RETURN NULL;
@@ -310,7 +308,7 @@ def upgrade():
             count_max = NEW.count_max,
             last_action = 'U',
             --CHAMPS ADDITIONNELS OCCTAX
-            additional_data = COALESCE(nullif(releve.additional_fields,'[]'::jsonb), '{}'::jsonb) || COALESCE(nullif(occurrence.additional_fields,'[]'::jsonb), '{}'::jsonb) || COALESCE(nullif(NEW.additional_fields,'[]'::jsonb), '{}'::jsonb) || jsonb_build_object( 'ids_observers', myobservers.observers_id) || jsonb_build_object('id_base_site', releve.id_releve_occtax, 'id_base_visit', occurence.id_occurence_occtax)
+            additional_data = COALESCE(nullif(releve.additional_fields,'[]'::jsonb), '{}'::jsonb) || COALESCE(nullif(occurrence.additional_fields,'[]'::jsonb), '{}'::jsonb) || COALESCE(nullif(NEW.additional_fields,'[]'::jsonb), '{}'::jsonb) || jsonb_build_object( 'ids_observers', myobservers.observers_id) || jsonb_build_object('id_base_site', releve.id_releve_occtax, 'id_base_visit', occurrence.id_occurrence_occtax)
             FROM pr_occtax.cor_counting_occtax c
             WHERE unique_id_sinp = NEW.unique_id_sinp_occtax;
             IF(NEW.unique_id_sinp_occtax <> OLD.unique_id_sinp_occtax) THEN
