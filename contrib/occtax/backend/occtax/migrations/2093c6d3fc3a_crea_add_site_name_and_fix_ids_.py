@@ -1,4 +1,4 @@
-"""[CREA] add id_releve and id_occurrence in synthese
+"""[CREA] fix ids_observers in existing synthese releves
 
 Revision ID: 6c020c568dad
 Revises: 3685b3cb1837
