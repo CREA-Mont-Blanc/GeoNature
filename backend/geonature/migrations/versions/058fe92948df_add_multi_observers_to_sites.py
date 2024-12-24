@@ -1,4 +1,4 @@
-"""[monitoring] add multi observers to sites
+"""[CREA][monitoring] add multi observers to sites
 
 Revision ID: 058fe92948df
 Revises: 6734d8f7eb2a
@@ -7,14 +7,12 @@ Create Date: 2024-03-05 11:23:26.083757
 """
 
 from alembic import op
-import sqlalchemy as sa
-
 
 # revision identifiers, used by Alembic.
 revision = "058fe92948df"
-down_revision = "6734d8f7eb2a"
-branch_labels = None
-depends_on = None
+down_revision = None
+branch_labels = ("crea-geonature",)
+depends_on = "6734d8f7eb2a"
 
 
 def upgrade():
