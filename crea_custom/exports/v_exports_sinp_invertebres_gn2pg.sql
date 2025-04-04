@@ -1,4 +1,4 @@
-CREATE OR REPLACE VIEW gn_exports.v_synthese_sinp_vertebres_with_metadata_for_gn2pg AS
+CREATE OR REPLACE VIEW gn_exports.v_synthese_sinp_invertebres_with_metadata_for_gn2pg AS
 WITH
     af_actors AS (
         SELECT
@@ -358,7 +358,7 @@ WHERE
             taxonomie.bdc_statut bs
         WHERE
             bs.regne::TEXT = 'Animalia'::TEXT
-            AND bs.phylum::TEXT = 'Chordata'::TEXT
+            AND bs.phylum::TEXT != 'Chordata'::TEXT
     )
     AND ST_Contains (
         (
