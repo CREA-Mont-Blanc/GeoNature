@@ -350,6 +350,7 @@ FROM
     LEFT JOIN ref_nomenclatures.t_nomenclatures n18 ON s.id_nomenclature_info_geo_type = n18.id_nomenclature
     LEFT JOIN ref_nomenclatures.t_nomenclatures n19 ON s.id_nomenclature_determination_method = n19.id_nomenclature
     LEFT JOIN ref_nomenclatures.t_nomenclatures n20 ON s.id_nomenclature_valid_status = n20.id_nomenclature
+    LEFT JOIN gn_synthese.cor_area_synthese cas on s.id_synthese = cas.id_synthese
 WHERE
     s.cd_nom in (
         SELECT
@@ -360,16 +361,6 @@ WHERE
             bs.regne::TEXT = 'Animalia'::TEXT
             AND bs.phylum::TEXT = 'Chordata'::TEXT
     )
-    AND ST_Contains (
-        (
-            SELECT
-                geom_4326
-            FROM
-                ref_geo.l_areas
-            WHERE
-                id_area = 34946
-        ),
-        s.the_geom_4326
-    )
+    AND cas.id_area = 34946
 ORDER BY
     s.id_synthese;
