@@ -44,7 +44,7 @@ FROM
 	JOIN ref_nomenclatures.t_nomenclatures ref2 ON ref2.id_nomenclature = obj.id_nomenclature_objectif
 	JOIN ref_nomenclatures.t_nomenclatures ref3 ON ref3.id_nomenclature = taf.id_nomenclature_financing_type
 	LEFT JOIN gn_meta.cor_acquisition_framework_voletsinp sinp ON sinp.id_acquisition_framework = taf.id_acquisition_framework
-	JOIN ref_nomenclatures.t_nomenclatures ref4 ON ref4.id_nomenclature = sinp.id_nomenclature_voletsinp
+	LEFT JOIN ref_nomenclatures.t_nomenclatures ref4 ON ref4.id_nomenclature = sinp.id_nomenclature_voletsinp
 	LEFT JOIN utilisateurs.bib_organismes ref5 ON af_actors.id_organism = ref5.id_organisme
 	AND af_actors.cd_nomenclature::INT = 1
 	LEFT JOIN utilisateurs.bib_organismes ref6 ON af_actors.id_organism = ref6.id_organisme
