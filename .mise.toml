@@ -1,0 +1,6 @@
+[tools]
+python = "3.12"
+
+[env]
+_.python.venv = { path = "backend/venv", create = true } # create the venv if it doesn't exist
+AWS_PROFILE = "crea-spot"
